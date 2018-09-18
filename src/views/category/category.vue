@@ -9,7 +9,7 @@
       <on-load v-show="!loadStatus"></on-load>
     </transition>
 
-    <search-header title="分类"></search-header>
+    <search-header title="分类" bg="linear-gradient(30deg, #ff568a , #ff61c1)"></search-header>
 
     <div class="category-wrapper" v-if="dataList.length">
       <!-- 侧边栏 -->
@@ -36,7 +36,7 @@
                 class="categorys"
                 v-for="(v, i) in item.content.list"
                 :key="i"
-                @click="toList(v.category_id)"
+                @click="toList(v.category_id, v.name)"
               >
                 <img :src="v.img" alt="categorys">
                 <span>{{v.name}}</span>
@@ -129,10 +129,10 @@ export default {
     },
 
     // 处理路由跳转
-    toList(id) {
+    toList(id, name) {
       this.$router.push({
         name: 'goodsList',
-        params: {id}
+        params: {id, name}
       })
     }
   },

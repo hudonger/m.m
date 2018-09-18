@@ -78,7 +78,7 @@ export default [
   },
   // 商品列表
   {
-    path: '/commodity/list/:id',
+    path: '/category/:id',
     name: 'goodsList',
     component: () => import (/* webpackChunkName: "goodsList" */ '@/views/goodsList/goodsList')
   },

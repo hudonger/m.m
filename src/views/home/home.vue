@@ -121,6 +121,7 @@ export default {
 .home-page {
   position: relative;
   height: 100%;
+  padding-bottom: 92px;
   .scroll-wrapper {
     height: 100%;
     overflow: hidden;

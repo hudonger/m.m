@@ -1,5 +1,5 @@
 <template>
-  <div class="search-header">
+  <div class="search-header" :style="{'background': bg}">
     <i class="iconfont icon-fanhui" @click="$router.go(-1)"></i>
     <span>{{title}}</span>
     <i class="iconfont icon-sousuo"></i>
@@ -12,6 +12,10 @@ export default {
     title: {
       type: String(),
       required: true
+    },
+    bg: {
+      type: String(),
+      default: '#ccc'
     }
   }
 }
@@ -27,7 +31,6 @@ export default {
     height: 100px;
     color: #fff;
     font-size: 36px;
-    background: linear-gradient(30deg, #ff568a , #ff61c1);
     .iconfont {
       display: flex;
       justify-content: center;

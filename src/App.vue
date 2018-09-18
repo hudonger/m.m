@@ -1,15 +1,8 @@
 <template>
   <div id="app">
-    <transition
-      name="fade"
-      mode="out-in"
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-    >
-      <keep-alive>
-        <router-view/>
-      </keep-alive>
-    </transition>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
 
     <!-- 底部导航栏 -->
     <navigation />
@@ -32,6 +25,5 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  padding-bottom: 92px;
 }
 </style>
