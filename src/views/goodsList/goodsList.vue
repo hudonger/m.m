@@ -3,11 +3,13 @@
     <search-header :title="$route.params.name" bg="linear-gradient(143deg, #2945cb 20%, #2b83f9 81%, #3a9dff)"></search-header>
     <div class="content" ref="scroll">
       <div class="scroll-wrapper">
-        <div class="goods" v-for="item in goodsList" :key="item.id">
+        <div class="goods" v-for="item in goodsList" :key="item.id" @click="toDetail(item.id)">
           <img :src="item.img" alt="goods">
-          <div class="desc">{{item.desc}}</div>
-          <div class="name">{{item.name}}</div>
-          <div class="price">￥{{item.price}}</div>
+          <div class="title">{{item.title}}</div>
+          <div class="bottom">
+            <div class="price">￥<span>{{item.price}}</span></div>
+            <div class="label" v-show="item.label">{{item.label}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -42,13 +44,21 @@ export default {
     },
     initScroll() {
       this.scroll = new BScroll(this.$refs.scroll, {
-        click: this.click
+        click: true
+      });
+    },
+    toDetail(id) {
+      this.$router.push({
+        name: 'goodsDetail',
+        params: { id }
       });
     }
   },
   activated() {
-    this.id = this.$route.params.id;
-    this.loadList();
+    if (this.id !== Number(this.$route.params.id)) {
+      this.id = Number(this.$route.params.id);
+      this.loadList();
+    }
   }
 };
 </script>
@@ -59,7 +69,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 99;
-  background: #fff;
+  background: #f4f4f4;
   .content {
     position: absolute;
     top: 100px;
@@ -71,38 +81,50 @@ export default {
     .scroll-wrapper {
       display: flex;
       flex-wrap: wrap;
-      padding: 20px 12px;
+      justify-content: space-between;
+      padding: 20px 20px;
       .goods {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         position: relative;
-        width: 50%;
+        width: 345px;
+        height: 524px;
+        background: #fff;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        overflow: hidden;
         img {
-          width: 346px;
-          height: 346px;
-          border-radius: 12px 12px 0 0;
+          width: 345px;
+          height: 345px;
         }
-        div {
-          width: 346px;
-          text-align: left;
-          padding: 0 12px;
-          font-size: 24px;
-        }
-        .desc {
-          background: rgba(99, 99, 99, 0.6);
-          color: #fff;
-          line-height: 66px;
-          border-radius: 0 0 12px 12px;
-        }
-        .name {
+        .title {
           color: #222;
-          font-size: 28px;
-          line-height: 52px;
-        }
-        .price {
-          color: #af181f;
+          font-size: 32px;
           line-height: 42px;
+          padding: 10px 20px;
+          max-height: 100px;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+        }
+        .bottom {
+          display: flex;
+          justify-content: space-between;
+          padding: 20px 20px 0;
+          color: cornflowerblue;
+          .price {
+            // color: #f01414;
+            font-size: 24px;
+            span {
+              font-size: 36px;
+            }
+          }
+          .label {
+            height: 32px;
+            line-height: 32px;
+            padding: 0 10px;
+            border: 1px solid cornflowerblue;
+          }
         }
       }
     }

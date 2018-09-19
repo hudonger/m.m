@@ -68,7 +68,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .recommend-container {
   position: relative;
   width: 100%;
@@ -122,14 +122,6 @@ export default {
         }
       }
     }
-  }
-  .swiper-pagination-bullet {
-    background: #fff;
-    border-radius: 12px;
-    width: 24px;
-    height: 24px;
-    margin: 0;
-    transform: scale(.5);
   }
 }
 </style>

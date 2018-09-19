@@ -6,6 +6,7 @@ import store from './store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import './assets/styles/reset.css'
+import './assets/styles/base.scss'
 import './assets/fonts/iconfont.css'
 import './assets/styles/animate.css'
 

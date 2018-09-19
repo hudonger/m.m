@@ -70,7 +70,7 @@ export default [
     name: 'cart',
     component: () => import (/* webpackChunkName: "cart" */ '@/views/cart/cart')
   },
-  // 我的
+  // 个人中心
   {
     path: '/user',
     name: 'user',
@@ -81,5 +81,11 @@ export default [
     path: '/category/:id',
     name: 'goodsList',
     component: () => import (/* webpackChunkName: "goodsList" */ '@/views/goodsList/goodsList')
+  },
+  // 商品详情
+  {
+    path: '/detail/:id',
+    name: 'goodsDetail',
+    component: () => import (/* webpackChunkName: "goodsDetail" */ '@/views/goodsDetail/goodsDetail')
   },
 ]
