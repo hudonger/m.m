@@ -9,7 +9,7 @@
       <on-load v-show="!loadStatus"></on-load>
     </transition>
 
-    <search-header title="分类" bg="linear-gradient(30deg, #ff568a , #ff61c1)"></search-header>
+    <search-header title="分类"></search-header>
 
     <div class="category-wrapper" v-if="dataList.length">
       <!-- 侧边栏 -->

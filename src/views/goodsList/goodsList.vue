@@ -1,6 +1,6 @@
 <template>
   <div class="goods-list-page">
-    <search-header :title="$route.params.name" bg="linear-gradient(143deg, #2945cb 20%, #2b83f9 81%, #3a9dff)"></search-header>
+    <search-header :title="$route.params.name"></search-header>
     <div class="content" ref="scroll">
       <div class="scroll-wrapper">
         <div class="goods" v-for="item in goodsList" :key="item.id" @click="toDetail(item.id)">
@@ -111,9 +111,8 @@ export default {
           display: flex;
           justify-content: space-between;
           padding: 20px 20px 0;
-          color: cornflowerblue;
           .price {
-            // color: #f01414;
+            color: #f01414;
             font-size: 24px;
             span {
               font-size: 36px;
@@ -123,7 +122,8 @@ export default {
             height: 32px;
             line-height: 32px;
             padding: 0 10px;
-            border: 1px solid cornflowerblue;
+            color: #fb7299;
+            border: 1px solid #fb7299;
           }
         }
       }
