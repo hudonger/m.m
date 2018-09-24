@@ -1,28 +1,29 @@
 <template>
-  <div class="detail-page">
+  <div class="detail-page" v-if="detail" ref="detailWrap" @scroll="handleScroll" :style="{'overflow-y': overflow}">
+    <m-header :opacity="opacity"></m-header>
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="img in imgList" :key="img">
+        <div class="swiper-slide" v-for="img in detail.imgList" :key="img">
           <img :src="img">
         </div>
       </div>
-      <div class="swiper-page">{{swiperIndex}}/{{imgList.length}}</div>
+      <div class="swiper-page">{{swiperIndex}}/{{detail.imgList.length}}</div>
     </div>
     <div class="content">
       <div class="section">
-        <div class="title">[追加限量] FOTS JAPAN 小林家的龙女仆 康娜&托尔 女仆Ver. 手办</div>
-        <div class="desc">不得了 不得了</div>
-        <div class="price"><span>全款</span>￥<span>520</span></div>
+        <div class="title">{{detail.title}}</div>
+        <div class="desc">{{detail.desc}}</div>
+        <div class="price"><span>全款</span>￥<span>{{detail.price}}</span></div>
         <div class="info">
           <div class="brand">
             <div>
               <span>品牌</span>
-              <span>FOTS JAPAN</span>
+              <span>{{detail.brand}}</span>
             </div>
             <i class="iconfont icon-jiantouyou"></i>
           </div>
           <span class="line-dashed"></span>
-          <div class="specification">
+          <div class="specification" @click="showSelect">
             <div>
               <span>规格</span>
               <span>选择尺寸，颜色分类</span>
@@ -52,30 +53,15 @@
       <div class="section detail">
         <div class="area-title">商品详情</div>
         <ul class="detail-info">
-          <li>
-            <span>比例</span>
-            <span>1/4</span>
-          </li>
-          <li>
-            <span>尺寸</span>
-            <span>全高：约420mm</span>
-          </li>
-          <li>
-            <span>系列</span>
-            <span>手办系列</span>
+          <li v-for="(item, index) in detail.detail" :key="index">
+            <span>{{item.title}}</span>
+            <span>{{item.info}}</span>
           </li>
         </ul>
         <div class="detail-view">查看全部</div>
       </div>
       <div class="img-list">
-        <img src="@/assets/images/kangna1.jpg">
-        <img src="@/assets/images/kangna2.jpg">
-        <img src="@/assets/images/kangna3.jpg">
-        <img src="@/assets/images/kangna4.jpg">
-        <img src="@/assets/images/tuoer1.jpg">
-        <img src="@/assets/images/tuoer2.jpg">
-        <img src="@/assets/images/tuoer3.jpg">
-        <img src="@/assets/images/tuoer4.jpg">
+        <img v-for="url in detail.detailImg" :key="url" :src="url">
       </div>
 
       <div class="space"></div>
@@ -112,28 +98,57 @@
       </div>
       <div class="btn">立即购买</div>
     </div>
+
+    <transition
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+    >
+      <div class="bg-mask" v-show="show" @click="handleHide"></div>
+    </transition>
+
+    <transition
+      enter-active-class="animated slideInUp"
+      leave-active-class="animated slideOutDown"
+    >
+      <select-dialog v-show="show" :select-img="selectImg" @hide="handleHide"></select-dialog>
+    </transition>
   </div>
 </template>
 
 <script>
 import Swiper from "swiper";
 import "swiper/dist/css/swiper.min.css";
-
-const imgList = [
-  require("@/assets/images/kangna1.jpg"),
-  require("@/assets/images/kangna3.jpg"),
-  require("@/assets/images/tuoer1.jpg"),
-  require("@/assets/images/tuoer4.jpg")
-];
+import { getDetail } from '@/api/category';
+import MHeader from './components/header';
+import SelectDialog from './components/select-dialog';
 
 export default {
+  components: {
+    MHeader,
+    SelectDialog
+  },
   data() {
     return {
-      imgList,
-      swiperIndex: 1
+      detail: null,
+      swiperIndex: 1,
+      opacity: 0,
+      overflow: 'scroll',
+      show: false,
+      selectImg: ''
     };
   },
   methods: {
+    loadDetail() {
+      getDetail('model').then(res => {
+        if (res.code === 1) {
+          this.detail = res.data;
+          this.selectImg = res.data.imgList[0];
+          this.$nextTick(() => {
+            this.initSwiper();
+          });
+        }
+      })
+    },
     initSwiper() {
       this.swiper = new Swiper(".swiper-container", {
         on: {
@@ -142,10 +157,24 @@ export default {
           }
         }
       });
+    },
+    handleScroll() {
+      this.opacity = Math.round(this.$refs.detailWrap.scrollTop) / 500;
+      if (this.opacity >= 1) {
+        this.opacity = 1;
+      };
+    },
+    showSelect() {
+      this.show = true;
+      this.overflow = 'hidden';
+    },
+    handleHide() {
+      this.show = false;
+      this.overflow = 'scroll';
     }
   },
   mounted() {
-    this.initSwiper();
+    this.loadDetail();
   }
 };
 </script>

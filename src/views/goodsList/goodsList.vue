@@ -32,12 +32,27 @@ export default {
       scroll: null
     };
   },
+  activated() {
+    if (this.scroll) {
+      this.scroll.enable();
+      this.scroll.refresh();
+    }
+    if (this.id !== Number(this.$route.params.id)) {
+      this.id = Number(this.$route.params.id);
+      this.loadList();
+    }
+  },
+  deactivated() {
+    this.scroll.disable();
+  },
+  beforeDestroy() {
+    this.scroll.disable();
+  },
   methods: {
     loadList() {
       getCategoryList(this.id).then(res => {
         if (res.code === 1) {
           this.goodsList = res.goodsList;
-          console.log(res.goodsList);
           this.initScroll();
         }
       });
@@ -52,12 +67,6 @@ export default {
         name: 'goodsDetail',
         params: { id }
       });
-    }
-  },
-  activated() {
-    if (this.id !== Number(this.$route.params.id)) {
-      this.id = Number(this.$route.params.id);
-      this.loadList();
     }
   }
 };

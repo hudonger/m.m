@@ -17,3 +17,14 @@ export const getCategoryList = (id) => {
     }
   })
 }
+
+// 获取商品详情 (只写了两种 手办和服装)
+export const getDetail = (type) => {
+  return fetch({
+    url: type === 'model' ? '/api/modelDetail' : '/api/clothingDetail',
+    method: 'post',
+    data: {
+      type
+    }
+  })
+}

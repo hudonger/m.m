@@ -73,6 +73,18 @@ export default {
       dataList: []
     };
   },
+  activated() {
+    if (this.listScroll) {
+      this.listScroll.enable();
+      this.listScroll.refresh();
+    }
+  },
+  deactivated() {
+    this.listScroll.disable();
+  },
+  beforeDestroy() {
+    this.listScroll.disable();
+  },
   methods: {
     // 加载分类数据
     loadCategory() {
