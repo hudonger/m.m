@@ -110,7 +110,13 @@
       enter-active-class="animated slideInUp"
       leave-active-class="animated slideOutDown"
     >
-      <select-dialog v-show="show" :select-img="selectImg" @hide="handleHide"></select-dialog>
+      <select-dialog
+        v-show="show"
+        :select-img="selectImg"
+        :buy-option="buyOption"
+        :goods-info="goodsInfo"
+        @hide="handleHide"
+      ></select-dialog>
     </transition>
   </div>
 </template>
@@ -121,6 +127,7 @@ import "swiper/dist/css/swiper.min.css";
 import { getDetail } from '@/api/category';
 import MHeader from './components/header';
 import SelectDialog from './components/select-dialog';
+import { buy_option, goods_info } from '@/mock/sku.js';
 
 export default {
   components: {
@@ -134,7 +141,9 @@ export default {
       opacity: 0,
       overflow: 'scroll',
       show: false,
-      selectImg: ''
+      selectImg: '',
+      buyOption: buy_option,
+      goodsInfo: goods_info
     };
   },
   methods: {

@@ -16,24 +16,14 @@
         </div>
       </div>
     </div>
-    <div class="commodity-size layout">
-      <div class="title">尺码</div>
+
+    <div v-for="(item, index) in buyOption" :key="index" class="layout">
+      <div class="title">{{item.name}}</div>
       <div class="content">
-        <div class="item">41</div>
-        <div class="item">41.5</div>
-        <div class="item">42</div>
-        <div class="item">42.5</div>
-        <div class="item">43</div>
-        <div class="item">44</div>
+        <div v-for="val in item.list" :key="val.value_id" class="item">{{val.name}}</div>
       </div>
     </div>
-    <div class="commodity-color layout">
-      <div class="title">颜色</div>
-      <div class="content">
-        <div class="item">黑红</div>
-        <div class="item">墨绿</div>
-      </div>
-    </div>
+
     <div class="count-wrap layout">
       <div class="title">数量</div>
       <div class="btns">
@@ -47,12 +37,11 @@
 
 <script>
 export default {
-  props: {
-    selectImg: {
-      type: String,
-      required: true
-    }
-  },
+  props: [
+    'selectImg',
+    'buyOption',
+    'goodsInfo'
+  ],
   data() {
     return {
       fade: "fadeIn",
