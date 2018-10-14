@@ -112,9 +112,8 @@
     >
       <select-dialog
         v-show="show"
-        :select-img="selectImg"
-        :buy-option="buyOption"
-        :goods-info="goodsInfo"
+        :select-image="selectImg"
+        :default-price="defaultPrice"
         @hide="handleHide"
       ></select-dialog>
     </transition>
@@ -127,7 +126,6 @@ import "swiper/dist/css/swiper.min.css";
 import { getDetail } from '@/api/category';
 import MHeader from './components/header';
 import SelectDialog from './components/select-dialog';
-import { buy_option, goods_info } from '@/mock/sku.js';
 
 export default {
   components: {
@@ -142,8 +140,7 @@ export default {
       overflow: 'scroll',
       show: false,
       selectImg: '',
-      buyOption: buy_option,
-      goodsInfo: goods_info
+      defaultPrice: ''
     };
   },
   methods: {
@@ -152,6 +149,7 @@ export default {
         if (res.code === 1) {
           this.detail = res.data;
           this.selectImg = res.data.imgList[0];
+          this.defaultPrice = res.data.price;
           this.$nextTick(() => {
             this.initSwiper();
           });

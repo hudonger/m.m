@@ -51,6 +51,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800000,
     price: 1099,
+    stock: 12,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-black1.jpg',
     prop_list: [
       {
@@ -68,6 +69,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800001,
     price: 1099,
+    stock: 8,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-black1.jpg',
     prop_list: [
       {
@@ -85,6 +87,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800002,
     price: 1299,
+    stock: 16,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-black1.jpg',
     prop_list: [
       {
@@ -102,6 +105,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800003,
     price: 1299,
+    stock: 10,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-black1.jpg',
     prop_list: [
       {
@@ -119,6 +123,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800004,
     price: 1299,
+    stock: 2,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-black1.jpg',
     prop_list: [
       {
@@ -136,6 +141,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800005,
     price: 1099,
+    stock: 9,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-black1.jpg',
     prop_list: [
       {
@@ -153,6 +159,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800006,
     price: 999,
+    stock: 16,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-green1.jpg',
     prop_list: [
       {
@@ -170,6 +177,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800007,
     price: 999,
+    stock: 11,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-green1.jpg',
     prop_list: [
       {
@@ -187,6 +195,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800008,
     price: 1199,
+    stock: 5,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-green1.jpg',
     prop_list: [
       {
@@ -204,6 +213,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 800009,
     price: 1199,
+    stock: 1,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-green1.jpg',
     prop_list: [
       {
@@ -221,6 +231,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 8000010,
     price: 1199,
+    stock: 3,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-green1.jpg',
     prop_list: [
       {
@@ -238,6 +249,7 @@ const goods_info = [
     buy_limit: 5,
     goods_id: 8000011,
     price: 999,
+    stock: 23,
     img_url: 'https://juplus.cn/glf/gelanfu-view/images/donger/aj-green1.jpg',
     prop_list: [
       {
