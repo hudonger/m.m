@@ -1,4 +1,5 @@
 import 'babel-polyfill'
+if (process.env.NODE_ENV !== 'production') require('./mock')
 import Vue from 'vue'
 import App from './App'
 import router from './router'
