@@ -13,6 +13,7 @@
     "better-scroll": "^1.12.6",
     "dompurify": "^1.0.8",
     "js-cookie": "^2.2.0",
+    "mockjs": "^1.0.1-beta3",
     "nprogress": "^0.2.0",
     "swiper": "^4.3.5",
     "vue": "^2.5.17",
