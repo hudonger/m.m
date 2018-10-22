@@ -5,16 +5,18 @@
       <span>购物车</span>
     </div>
     <div class="list" v-if="cartList.length">
-      <div class="item" v-for="(item, index) in cartList" :key="index">
-        <div class="checkbox">
-          <i :class="['iconfont', item.isClick ? 'icon-yes_fill active' : 'icon-yuancircle46']" @click="item.isClick = !item.isClick"></i>
+      <scroll ref="scroll">
+        <div class="item" v-for="(item, index) in cartList" :key="index">
+          <div class="checkbox">
+            <i :class="['iconfont', item.isClick ? 'icon-yes_fill active' : 'icon-yuancircle46']" @click="item.isClick = !item.isClick"></i>
+          </div>
+          <img :src="item.img" alt="商品">
+          <div class="desc">
+            <div class="name">{{item.name}}</div>
+            <div class="price">￥{{item.price}}</div>
+          </div>
         </div>
-        <img :src="item.img" alt="商品">
-        <div class="desc">
-          <div class="name">{{item.name}}</div>
-          <div class="price">￥{{item.price}}</div>
-        </div>
-      </div>
+      </scroll>
     </div>
     <div class="footer">
       <div class="info">
@@ -30,15 +32,29 @@
 </template>
 
 <script>
+import Scroll from '@/components/scroll/scroll';
 import { getCartList } from "@/api/cart";
 
 export default {
+  components: {
+    Scroll
+  },
   data() {
     return {
       cartList: [],
       checkAll: false,
       total: 0
     };
+  },
+  activated() {
+    this.$refs.scroll.enable()
+    this.$refs.scroll.refresh();
+  },
+  deactivated() {
+    this.$refs.scroll.disable();
+  },
+  beforeDestroy() {
+    this.$refs.scroll.disable();
   },
   methods: {
     loadList() {
@@ -47,7 +63,6 @@ export default {
           item.isClick = false;
         })
         this.cartList = res.list;
-        console.log(this.cartList);
       });
     }
   },
@@ -86,7 +101,7 @@ export default {
   }
   .list {
     font-size: 24px;
-    padding-bottom: 92px;
+    height: calc(100vh - 100px - 92px);
     .item {
       display: flex;
       align-items: center;

@@ -28,7 +28,6 @@
 
       <div class="type-list" ref="listScroll" @touchStart="scrollType = 3">
         <div>
-
           <div class="list-item" v-for="item in dataList" :key="item.label">
             <div class="title">{{item.content.title}}</div>
             <div class="content">
@@ -43,7 +42,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -56,7 +54,7 @@ import SearchHeader from "@/components/search-header/search-header";
 import { getCategory } from "@/api/category";
 import bus from "@/libs/bus.js";
 import Bscroll from "better-scroll";
-import { css } from '../../libs/util';
+import { css } from '@/libs/util';
 
 export default {
   components: {
@@ -70,7 +68,8 @@ export default {
       topList: [],
       listScroll: null,
       scrollType: 3,
-      dataList: []
+      dataList: [],
+      timer: null
     };
   },
   activated() {
@@ -132,11 +131,17 @@ export default {
       }
 
       this.listScroll.on("scroll", (pos) => {
-        this.topList.forEach((item, index) => {
-          if (pos.y <= -(item - 100)) {
-            this.currentIndex = index;
-          }
-        })
+        if (this.timer) {
+          clearTimeout(this.timer)
+        }
+
+        this.timer = setTimeout(() => {
+          this.topList.forEach((item, index) => {
+            if (pos.y <= -(item - 100)) {
+              this.currentIndex = index;
+            }
+          })
+        }, 16)
       });
     },
 

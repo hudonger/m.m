@@ -1,39 +1,38 @@
 <template>
   <div class="home-page">
-    <div ref="scroll" class="scroll-wrapper">
-      <div>
-        <div class="search-wrapper" :style="{ backgroundColor: themeList[currentIndex] }">
-          <img class="logo" src="@/assets/images/logo.svg">
-          <div class="textarea"></div>
-          <i class="iconfont icon-sousuo"></i>
-        </div>
-        <div class="header-nav">
-          <ul>
-            <li v-for="(item, index) in navList" :key="item.page_id" @click="handleTabs(item.name, index)">{{item.name}}</li>
-          </ul>
-          <div ref="underline" class="underline" :style="{backgroundColor: themeList[currentIndex], left: `${navItemWidth / 2}px`}"></div>
-        </div>
-
-        <transition :name="transitionName" mode="out-in">
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
-        </transition>
+    <scroll ref="scroll">
+      <div class="search-wrapper" :style="{ backgroundColor: themeList[currentIndex] }">
+        <img class="logo" src="@/assets/images/logo.svg">
+        <div class="textarea"></div>
+        <i class="iconfont icon-sousuo"></i>
       </div>
-    </div>
+      <div class="header-nav">
+        <ul>
+          <li v-for="(item, index) in navList" :key="item.page_id" @click="handleTabs(item.name, index)">{{item.name}}</li>
+        </ul>
+        <div ref="underline" class="underline" :style="{backgroundColor: themeList[currentIndex], left: `${navItemWidth / 2}px`}"></div>
+      </div>
+      <transition :name="transitionName" mode="out-in">
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
+    </scroll>
   </div>
 </template>
 
 <script>
-import BScroll from "better-scroll";
+import Scroll from '@/components/scroll/scroll';
 import { getNavList } from "@/api/home";
 import bus from "@/libs/bus";
 
 export default {
   name: 'home',
+  components: {
+    Scroll
+  },
   data() {
     return {
-      scroll: null,
       navList: [],
       themeList: ["#d50b26", "#8bc34a", "#9447eb", "#ffa000"],
       bannerList: [],
@@ -51,36 +50,25 @@ export default {
   created() {
     this.loadNavList();
   },
-  mounted() {
-    this.initScroll();
-  },
   activated() {
-    this.scroll.enable()
-    this.scroll.refresh();
+    this.$refs.scroll.enable()
+    this.$refs.scroll.refresh();
     this.$nextTick(() => {
       this.$refs.underline.style.transform = `translate3d(${this.currentIndex * this.navItemWidth}px, 0, 0)`;
     });
   },
   deactivated() {
-    this.scroll.disable();
+    this.$refs.scroll.disable();
   },
   beforeDestroy() {
-    this.scroll.disable();
+    this.$refs.scroll.disable();
   },
   methods: {
     // 加载 navList
     loadNavList() {
       getNavList().then(res => {
+        console.log(res);
         this.navList = res.data.list;
-      });
-    },
-
-    initScroll() {
-      this.scroll = new BScroll(this.$refs.scroll, {
-        click: true,
-        scrollbar: {
-          fade: true
-        }
       });
     },
 
@@ -122,10 +110,6 @@ export default {
   position: relative;
   height: 100%;
   padding-bottom: 92px;
-  .scroll-wrapper {
-    height: 100%;
-    overflow: hidden;
-  }
   .search-wrapper {
     display: flex;
     justify-content: center;

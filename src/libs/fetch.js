@@ -1,23 +1,18 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://rap2api.taobao.org/app/mock/25075',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json; charset=utf-8'
-  }
+  // baseURL: 'http://rap2api.taobao.org/app/mock/25075',
+  baseURL: 'http://192.168.1.145:8080',
+  timeout: 5000
 })
 
 function fetch(params) {
-  const is = params.method === 'get'
   return new Promise((resolve, reject) => {
     instance({
       url: params.url,
       method: params.method || 'get',
-      params: is ? params.data : {},
-      data: is ? {} : params.data
+      data: params.data
     }).then(res => {
-      // some code 可以做一些状态码的处理
       resolve(res.data)
     }).catch(err => {
       reject(err)

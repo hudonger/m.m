@@ -45,6 +45,7 @@ import MButton from "@/components/button/button";
 import Loading from "@/components/loading/loading";
 import { validator } from "@/libs/util";
 import { login, register } from "@/api/user";
+import axios from 'axios';
 
 export default {
   components: {
@@ -86,6 +87,14 @@ export default {
       this.$router.go(-1);
     },
 
+    handleSuccess(res) {
+      this.loadStatus = false;
+      this.$toast({
+        content: res.msg
+      });
+      this.$router.push('/user')
+    },
+
     handleSubmit() {
       const result = this.formValidata();
 
@@ -98,17 +107,11 @@ export default {
 
         if (this.isLogin) {
           login(data).then(res => {
-            this.loadStatus = false;
-            this.$toast({
-              content: res.msg
-            });
+            this.handleSuccess(res)
           });
         } else {
           register(data).then(res => {
-            this.loadStatus = false;
-            this.$toast({
-              content: res.msg
-            });
+            this.handleSuccess(res)
           });
         }
       } else {

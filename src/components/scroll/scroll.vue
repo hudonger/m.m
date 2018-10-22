@@ -1,6 +1,8 @@
 <template>
-  <div ref="wrapper">
-    <slot></slot>
+  <div ref="wrapper" class="scroll-wrapper">
+    <div>
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -26,16 +28,8 @@ export default {
       default: 20
     }
   },
-  mounted() {
-    setTimeout(() => {
-      this.initScroll();
-    }, 20);
-  },
   methods: {
     initScroll() {
-      if (!this.$refs.wrapper) {
-        return;
-      }
       this.scroll = new BScroll(this.$refs.wrapper, {
         click: this.click
       });
@@ -56,6 +50,11 @@ export default {
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments);
     }
   },
+  mounted() {
+    setTimeout(() => {
+      this.initScroll();
+    }, 20);
+  },
   watch: {
     data() {
       setTimeout(() => {
@@ -65,3 +64,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.scroll-wrapper {
+  height: 100%;
+  overflow: hidden;
+}
+</style>
+
