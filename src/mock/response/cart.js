@@ -7,7 +7,8 @@ export const cart = options => {
       {
         "name": "间歇性踌躇满志，持续性混吃等死",
         "price": "@integer(100, 999)",
-        "img": "@image(210x140,@color,#fff,hello)"
+        "img": "@image(210x140,@color,#fff,hello)",
+        "count": 1
       }
     ]
   }

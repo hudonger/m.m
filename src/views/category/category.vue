@@ -130,18 +130,25 @@ export default {
         this.listScroll.refresh();
       }
 
-      this.listScroll.on("scroll", (pos) => {
-        if (this.timer) {
-          clearTimeout(this.timer)
-        }
+      // this.listScroll.on("scroll", (pos) => {
+      //   if (this.timer) {
+      //     clearTimeout(this.timer)
+      //   }
 
-        this.timer = setTimeout(() => {
-          this.topList.forEach((item, index) => {
-            if (pos.y <= -(item - 100)) {
-              this.currentIndex = index;
-            }
-          })
-        }, 16)
+      //   this.timer = setTimeout(() => {
+      //     this.topList.forEach((item, index) => {
+      //       if (pos.y <= -(item - 100)) {
+      //         this.currentIndex = index;
+      //       }
+      //     })
+      //   }, 16)
+      // });
+      this.listScroll.on("scroll", (pos) => {
+        this.topList.forEach((item, index) => {
+          if (pos.y <= -(item - 100)) {
+            this.currentIndex = index;
+          }
+        })
       });
     },
 
