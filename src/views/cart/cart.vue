@@ -3,13 +3,13 @@
     <div class="header">
       <i class="iconfont icon-fanhui" @click="$router.back()"></i>
       <span>购物车</span>
-      <span class="edit">编辑</span>
+      <span class="edit" @click="handleEdit">{{editBtn}}</span>
     </div>
     <div class="list" v-if="cartList.length">
       <scroll ref="scroll">
         <div class="item" v-for="(item, index) in cartList" :key="index">
           <div class="checkbox">
-            <i :class="['iconfont', item.isClick ? 'icon-yes_fill active' : 'icon-yuancircle46']" @click="item.isClick = !item.isClick"></i>
+            <i :class="['iconfont', item.isClick ? 'icon-yes_fill active' : 'icon-yuancircle46']" @click="handleClickItem(item)"></i>
           </div>
           <img :src="item.img" alt="商品">
           <div class="desc">
@@ -17,9 +17,9 @@
             <div class="info">
               <div class="price">￥{{item.price}}</div>
               <div class="action">
-                <div class="less">-</div>
+                <div class="less" @click="handleLess(item)">-</div>
                 <div class="count">{{item.count}}</div>
-                <div class="plus">+</div>
+                <div class="plus" @click="handlePlus(item)">+</div>
               </div>
             </div>
           </div>
@@ -28,13 +28,13 @@
     </div>
     <div class="footer">
       <div class="info">
-        <div class="checkbox" @click="checkAll = !checkAll">
+        <div class="checkbox" @click="handleCheckAll">
           <i :class="['iconfont', checkAll ? 'icon-yes_fill active' : 'icon-yuancircle46']"></i>
           <span>全选</span>
         </div>
-        <span class="total">合计：￥{{total}}</span>
+        <span class="total">合计：￥{{totalPrice}}</span>
       </div>
-      <div class="submit-btn">{{handleBtn}}</div>
+      <div class="submit-btn">{{submitBtn}}</div>
     </div>
   </div>
 </template>
@@ -51,8 +51,9 @@ export default {
     return {
       cartList: [],
       checkAll: false,
-      total: 0,
-      handleBtn: '去结算'
+      editBtn: '编辑',
+      submitBtn: '去结算',
+      status: 'buy'
     };
   },
   activated() {
@@ -66,14 +67,72 @@ export default {
   beforeDestroy() {
     this.$refs.scroll.disable();
   },
+  computed: {
+    totalPrice () {
+      let total = 0;
+      this.cartList.forEach(item => {
+        if (item.isClick) {
+          total += item.price;
+        }
+      })
+      return total;
+    }
+  },
   methods: {
+    // 加载购物车数据
     loadList() {
       getCartList().then(res => {
         res.list.forEach(item => {
           item.isClick = false;
+          item.base = item.price;
         })
         this.cartList = res.list;
       });
+    },
+
+    handleClickItem(item) {
+      item.isClick = !item.isClick;
+      if (!item.isClick) {
+        this.checkAll = false;
+      } else {
+        this.checkAll = this.cartList.every(item => {
+          return item.isClick;
+        })
+      }
+    },
+
+    // 全选按钮
+    handleCheckAll() {
+      this.checkAll = !this.checkAll;
+      this.cartList.forEach(item => {
+        item.isClick = this.checkAll;
+      })
+    },
+
+    // 减
+    handleLess(data) {
+      data.count--;
+      if (data.count < 1) data.count = 1;
+      data.price = data.base * data.count;
+    },
+
+    // 加
+    handlePlus(data) {
+      data.count++;
+      data.price = data.base * data.count;
+    },
+
+    // 编辑
+    handleEdit() {
+      if (this.status === 'buy') {
+        this.editBtn = '完成';
+        this.submitBtn = '删除选中';
+        this.status = 'edit';
+      } else {
+        this.editBtn = '编辑';
+        this.submitBtn = '去结算';
+        this.status = 'buy';
+      }
     }
   },
   mounted() {
@@ -82,145 +141,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.cart-page {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding-top: 100px;
-  z-index: 10;
-  background: #fff;
-  color: #2b343b;
-  overflow-y: scroll;
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    line-height: 100px;
-    font-size: 32px;
-    padding: 0 45px;
-    box-shadow: 1px 1px 20px #eee;
-    background: #fff;
-    .iconfont {
-      font-weight: bold;
-      margin-right: 42px;
-      font-size: 26px;
-    }
-    .edit {
-      float: right;
-    }
-  }
-  .list {
-    font-size: 24px;
-    padding-top: 30px;
-    height: calc(100vh - 100px - 92px);
-    .item {
-      display: flex;
-      align-items: center;
-      height: 200px;
-      padding-bottom: 30px;
-      .checkbox {
-        padding: 0 25px;
-        .iconfont {
-          color: #ccc;
-          font-size: 42px;
-        }
-        .active {
-          color: #20cc85;
-        }
-      }
-      img {
-        width: 210px;
-        height: 140px;
-        border-radius: 12px;
-        overflow: hidden;
-      }
-      .desc {
-        height: 140px;
-        padding: 10px 30px;
-        font-weight: bold;
-        font-size: 28px;
-        .info {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          padding-top: 20px;
-          .price {
-            color: #F01414;
-          }
-          .action {
-            display: flex;
-            font-weight: 500;
-            font-size: 32px;
-            color: #4b4b4b;
-            div {
-              width: 60px;
-              height: 50px;
-              line-height: 50px;
-              text-align: center;
-              border: 1px solid #9a9a9a;
-            }
-            .less {
-              border-right: none;
-              border-radius: 6px 0 0 6px;
-            }
-            .plus {
-              border-left: none;
-              border-radius: 0 6px 6px 0;
-            }
-            .count {
-              font-size: 24px;
-            }
-          }
-        }
-      }
-    }
-  }
-  .footer {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 92px;
-    background: #fff;
-    .info {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      border-top: 1px solid #eee;
-      font-size: 30px;
-      .checkbox {
-        display: flex;
-        align-items: center;
-        padding: 0 3px 0 25px;
-        .iconfont {
-          color: #ccc;
-          font-size: 42px;
-          margin-right: 3px;
-        }
-        .active {
-          color: #20cc85;
-        }
-        span {
-          color: #ccc;
-        }
-      }
-      .total {
-        font-weight: bold;
-        margin-left: 72px;
-      }
-    }
-    .submit-btn {
-      flex: 0 0 230px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      background: #F01414;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped src="./cart.scss"></style>

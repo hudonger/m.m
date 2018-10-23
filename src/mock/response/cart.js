@@ -3,7 +3,7 @@ import Mock from 'mockjs'
 export const cart = options => {
   const template = {
     "code": 1,
-    "list|10": [
+    "list|5": [
       {
         "name": "间歇性踌躇满志，持续性混吃等死",
         "price": "@integer(100, 999)",
