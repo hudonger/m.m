@@ -34,7 +34,7 @@
         </div>
         <span class="total">合计：￥{{totalPrice}}</span>
       </div>
-      <div class="submit-btn">{{submitBtn}}</div>
+      <div class="submit-btn" @click="handleSubmit">{{submitBtn}}</div>
     </div>
   </div>
 </template>
@@ -57,6 +57,7 @@ export default {
     };
   },
   activated() {
+    this.loadList();
     if (!this.$refs.scroll) return;
     this.$refs.scroll.enable();
     this.$refs.scroll.refresh();
@@ -133,10 +134,17 @@ export default {
         this.submitBtn = '去结算';
         this.status = 'buy';
       }
+    },
+
+    // 提交
+    handleSubmit() {
+      if (this.status === 'buy') {
+        const checked = this.cartList.some(item => item.isClick);
+        console.log(checked);
+      } else {
+        this.cartList = this.cartList.filter(item => !item.isClick);
+      }
     }
-  },
-  mounted() {
-    this.loadList();
   }
 };
 </script>
