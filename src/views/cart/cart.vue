@@ -5,7 +5,10 @@
       <span>购物车</span>
       <span class="edit" @click="handleEdit">{{editBtn}}</span>
     </div>
-    <div class="list" v-if="cartList.length">
+    <div class="empty" v-if="!userInfo">
+      <div @click="$router.push('/login')">点我登录~</div>
+    </div>
+    <div class="list" v-else-if="cartList.length">
       <scroll ref="scroll">
         <div class="item" v-for="(item, index) in cartList" :key="index">
           <div class="checkbox">
@@ -25,6 +28,9 @@
           </div>
         </div>
       </scroll>
+    </div>
+    <div class="empty" v-else>
+      <span>去添加点什么吧~</span>
     </div>
     <div class="footer">
       <div class="info">
@@ -63,12 +69,17 @@ export default {
     this.$refs.scroll.refresh();
   },
   deactivated() {
+    if (!this.$refs.scroll) return;
     this.$refs.scroll.disable();
   },
   beforeDestroy() {
+    if (!this.$refs.scroll) return;
     this.$refs.scroll.disable();
   },
   computed: {
+    userInfo() {
+      return this.$store.state.user.userInfo;
+    },
     totalPrice () {
       let total = 0;
       this.cartList.forEach(item => {

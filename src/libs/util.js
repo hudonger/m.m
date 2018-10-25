@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import config from '@/config'
 
 export const TOKEN_KEY = 'token'
 

@@ -111,6 +111,15 @@
     }
   }
 
+  .empty {
+    position: absolute;
+    top: 32%;
+    width: 100%;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+  }
+
   .footer {
     display: flex;
     position: fixed;

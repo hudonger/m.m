@@ -45,6 +45,7 @@ import MButton from "@/components/button/button";
 import Loading from "@/components/loading/loading";
 import { validator } from "@/libs/util";
 import { login, register } from "@/api/user";
+import { mapActions } from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -83,12 +84,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['handleLogin']),
+
     handleClose() {
       this.$router.go(-1);
     },
 
     handleSuccess(res) {
       this.loadStatus = false;
+      this.userVal = '',
+      this.passwordVal = '',
       this.$toast({
         content: res.msg
       });
@@ -106,13 +111,13 @@ export default {
         };
 
         if (this.isLogin) {
-          login(data).then(res => {
+          this.handleLogin(data).then(res => {
             this.handleSuccess(res)
-          });
+          })
         } else {
-          register(data).then(res => {
+          this.handleLogin(data).then(res => {
             this.handleSuccess(res)
-          });
+          })
         }
       } else {
         this.$toast({

@@ -3,7 +3,7 @@
     <div class="header">
       <div class="user-wrap">
         <img class="avatar" src="@/assets/images/user.png" alt="头像">
-        <div class="name">{{username}}</div>
+        <div class="name">{{userInfo ? userInfo.name : '点击登录'}}</div>
       </div>
       <div class="icon-wrap">
         <i class="iconfont icon-xiaoxi"></i>
@@ -11,9 +11,9 @@
         <i class="iconfont icon-shezhi"></i>
       </div>
     </div>
-    <div class="user-info">
-      <img class="avatar" src="@/assets/images/user.png" alt="头像">
-      <div class="name">{{username}}</div>
+    <div class="user-info" @click="$router.push('/login')">
+      <img class="avatar" :src="userInfo ? avatar.in : avatar.out" alt="头像">
+      <div class="name">{{userInfo ? userInfo.name : '点击登录'}}</div>
     </div>
 
     <div class="space"></div>
@@ -38,17 +38,43 @@
     </div>
 
     <div class="space"></div>
+
+    <div class="btn-wrap" v-show="userInfo">
+      <m-button size="large" bg-color="#2b343b" txt-color="#fff" @click="loginout">退出登录</m-button>
+    </div>
   </div>
 </template>
 
 <script>
+import MButton from "@/components/button/button";
+import { mapActions } from 'vuex';
+
+const avatar = {
+  in: require('@/assets/images/logo.png'),
+  out: require('@/assets/images/user.png')
+}
+
 export default {
+  components: {
+    MButton
+  },
   data() {
     return {
-      username: '点击登录'
+      avatar
+    };
+  },
+  computed: {
+    userInfo() {
+      return this.$store.state.user.userInfo;
+    }
+  },
+  methods: {
+    ...mapActions(['handleLogout']),
+    loginout() {
+      this.handleLogout()
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -92,7 +118,7 @@ export default {
     display: flex;
     align-items: center;
     height: 162px;
-    font-size: 32px;
+    font-size: 42px;
     padding: 0 50px;
     img {
       width: 116px;
@@ -141,6 +167,11 @@ export default {
         border-bottom: none;
       }
     }
+  }
+  .btn-wrap {
+    margin-top: 82px;
+    padding: 0 80px;
+    text-align: center;
   }
 }
 </style>

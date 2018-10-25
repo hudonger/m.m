@@ -67,7 +67,6 @@ export default {
     // 加载 navList
     loadNavList() {
       getNavList().then(res => {
-        console.log(res);
         this.navList = res.data.list;
       });
     },
