@@ -1,6 +1,10 @@
 <template>
-  <transition name="fade" appear @after-leave="afterLeave">
-    <div v-show="visible" class="toast">
+  <transition
+    appear
+    enter-active-class="animated slideInUp"
+    leave-active-class="animated fadeOut"
+  >
+    <div v-if="show" class="toast-container">
       <span>{{content}}</span>
     </div>
   </transition>
@@ -8,45 +12,28 @@
 
 <script>
 export default {
-  name: "Toast",
-  data() {
-    return {
-      visible: true
-    }
-  },
-  props: {
-    content: {
-      type: String,
-      required: true
-    }
-  },
-  methods: {
-    afterLeave() {
-      this.$emit('closed')
-    }
-  }
-};
+  name: 'toast'
+}
 </script>
 
 <style lang="scss" scoped>
-.toast {
+.toast-container {
+  display: flex;
+  justify-content: center;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  font-size: 32px;
-  padding: 16px 32px;
+  bottom: 120px;
+  width: 100%;
+  font-size: 28px;
   color: #fff;
-  border-radius: 8px;
-  background: rgba($color: #222, $alpha: 0.8);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
+  animation-duration: 0.35s;
+  span {
+    display: block;
+    max-width: 700px;
+    padding: 30px 30px;
+    border-radius: 12px;
+    background: rgba($color: #000000, $alpha: 0.6);
+    word-wrap: break-word; // 英文换行
+    white-space: pre-wrap; // 中文换行
+  }
 }
 </style>

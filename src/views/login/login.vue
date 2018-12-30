@@ -137,7 +137,7 @@ export default {
         return result;
       }
 
-      if (!validator("require", this.passwordVal)) {
+      if (!this.passwordVal) {
         result.msg = "密码不能为空";
         return result;
       }

@@ -1,8 +1,24 @@
-import Toast from './toast.vue';
-import toast from './function';
+import ToastComponent from './toast.vue'
 
-// 定义全局组件
-export default (Vue) => {
-  Vue.component(Toast.name, Toast)
-  Vue.prototype.$toast = toast
+export default {
+  install (Vue, options) {
+    Vue.prototype.$toast = function ({ content, duration = 1500 }) {
+      if (document.querySelectorAll('.toast-container').length) return
+      const Constructor = Vue.extend(ToastComponent)
+      const Toast = new Constructor({
+        data () {
+          return {
+            content,
+            show: true
+          }
+        }
+      })
+      Toast.$mount()
+      document.body.appendChild(Toast.$el)
+
+      setTimeout(() => {
+        Toast.show = false
+      }, duration)
+    }
+  }
 }

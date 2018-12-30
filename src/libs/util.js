@@ -27,11 +27,6 @@ export const getUrlParam = name => {
 export const validator = (type, value) => {
   const val = String(value).trim()
 
-  // 非空验证
-  if (type === 'require') {
-    return !!val
-  }
-
   // 手机验证
   if (type === 'phone') {
     return /^1[3|4|5|7|8|9][0-9]{9}$/.test(val)

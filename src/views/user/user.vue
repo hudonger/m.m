@@ -1,16 +1,5 @@
 <template>
   <div class="user-page">
-    <div class="header">
-      <div class="user-wrap">
-        <img class="avatar" src="@/assets/images/user.png" alt="头像">
-        <div class="name">{{userInfo ? userInfo.name : '点击登录'}}</div>
-      </div>
-      <div class="icon-wrap">
-        <i class="iconfont icon-xiaoxi"></i>
-        <i class="iconfont icon-saoyisao"></i>
-        <i class="iconfont icon-shezhi"></i>
-      </div>
-    </div>
     <div class="user-info" @click="$router.push('/login')">
       <img class="avatar" :src="userInfo ? avatar.in : avatar.out" alt="头像">
       <div class="name">{{userInfo ? userInfo.name : '点击登录'}}</div>
@@ -88,31 +77,6 @@ export default {
     width: 100%;
     height: 16px;
     background: #f3f5f7;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 82px;
-    padding: 0 32px;
-    .user-wrap {
-      display: flex;
-      align-items: center;
-      font-size: 30px;
-      opacity: 0;
-      img {
-        width: 64px;
-        height: 64px;
-        margin-right: 10px;
-      }
-    }
-    .icon-wrap {
-      .iconfont {
-        font-size: 46px;
-        font-weight: bold;
-        margin-left: 50px;
-      }
-    }
   }
   .user-info {
     display: flex;

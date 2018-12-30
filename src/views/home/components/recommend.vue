@@ -1,12 +1,11 @@
 <template>
   <div class="recommend-container">
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
+    <div class="banner">
+      <slider v-if="bannerList.length" class-name="recommend-slider">
         <div class="swiper-slide" v-for="item in bannerList" :key="item.img">
           <img :src="item.img">
         </div>
-      </div>
-      <div class="swiper-pagination"></div>
+      </slider>
     </div>
 
     <div class="space"></div>
@@ -26,59 +25,51 @@
 </template>
 
 <script>
-import Swiper from "swiper";
-import "swiper/dist/css/swiper.min.css";
-import { getRecommend } from "@/api/home";
+import Slider from '@/components/slider/slider'
+import { getRecommend } from "@/api/home"
 
 export default {
+  components: {
+    Slider
+  },
   data() {
     return {
       bannerList: [],
       recommendList: []
-    };
+    }
   },
   created() {
-    this.loadPageData();
+    this.loadPageData()
   },
   methods: {
     loadPageData() {
-      this.$progress.start();
+      this.$progress.start()
       getRecommend().then(res => {
-        this.bannerList = res.data.bannerList;
-        this.recommendList = res.data.recommendList;
+        this.bannerList = res.data.bannerList
+        this.recommendList = res.data.recommendList
         this.$nextTick(() => {
-          this.$progress.done();
-          this.initSlide();
-        });
-      });
-    },
-    initSlide() {
-      new Swiper(".swiper-container", {
-        loop: true,
-        autoplay: {
-          delay: 2000,
-          disableOnInteraction: false
-        },
-        pagination: {
-          el: ".swiper-pagination"
-        }
-      });
+          this.$progress.done()
+        })
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
 .recommend-container {
   position: relative;
   width: 100%;
-  .swiper-container {
-    width: 100%;
-    height: 320px;
-    margin-bottom: 20px;
-    img {
-      width: 100%;
-      height: 100%;
+  .banner {
+    padding-bottom: 20px;
+    overflow: hidden;
+    .swiper-slide {
+      width: 680px;
+      border-radius: 12px;
+      overflow: hidden;
+      img {
+        width: 100%;
+      }
     }
   }
   .space {
@@ -125,3 +116,4 @@ export default {
   }
 }
 </style>
+

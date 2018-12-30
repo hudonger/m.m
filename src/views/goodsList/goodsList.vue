@@ -1,6 +1,6 @@
 <template>
   <div class="goods-list-page">
-    <search-header :title="$route.params.name"></search-header>
+    <search-header :title="title"></search-header>
     <div class="content" ref="scroll">
       <div class="scroll-wrapper">
         <div class="goods" v-for="item in goodsList" :key="item.id" @click="toDetail(item.id)">
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       id: -1,
+      title: '',
       goodsList: [],
       scroll: null
     };
@@ -41,6 +42,9 @@ export default {
       this.id = Number(this.$route.params.id);
       this.loadList();
     }
+  },
+  mounted() {
+    this.title = this.$route.params.name
   },
   deactivated() {
     this.scroll.disable();
